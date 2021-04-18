@@ -1,12 +1,17 @@
-<!DOCTYPE HTML>
-
+<!DOCTYPE html>
+<html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-<TITLE>Groundhandling Hotspots um Hamburg</TITLE>
-<LINK href="layout.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Groundhandling Hotspots um Hamburg</title>
+<link href="layout.css" rel="stylesheet" type="text/css">
 
-<BODY>
-    <SCRIPT type="text/javascript">
-
+<body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".meteo-widget").on('load', function () {
+                $(this).contents().find("header").css("display", "none");
+            });
+        });
         var HSpots;
 
         d3.csv("data.csv", function (error, data) {
@@ -109,7 +114,7 @@
                 .attr("width", '190')
                 .html(function (m) {
                     var ret
-                    ret = "<div class='hotspot'> <a href=https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + ">" + m.Hotspot + "</a></div>"
+                    ret = "<div class='hotspot'> <a href='https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + "' target='_blank'>" + m.Hotspot + "</a></div>"
                     ret = ret + "<div class='wind'>" + m.Wind + "</div>";
                     return ret;
                 });
@@ -117,21 +122,19 @@
             CreateArc(current_td);
 
             tr.append('td').html(function (d) {
-                var mburl = "<iframe src='" + d.Meteoblue + "?days=2&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&pictoicon=1&windspeed=1&windgust=1&winddirection=1&layout=light' allowTransparency='true' height='235' width='148' frameborder='0' scrolling='NO'></iframe>"
+                var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&spot=1&pressure=0&layout=light' allowTransparency='true' width='148' height='380' frameborder='0' scrolling='NO'></iframe></div>"
                 return mburl;
             });
 
             tr.append('td')
                 .append('div').attr("id", "beammeup")
                 .html(function (d) {
-                    return "<a href=http://maps.apple.com/?daddr=" + d.Geolocation + " target='_blank'>Beam me up</a>"
+                    return "<a href=http://maps.apple.com/?daddr=" + d.lat +","+ d.long + " target='_blank'>Beam me up</a>"
                 });
         }
+    </script>
 
-
-    </SCRIPT>
-
-    <DIV id="panel">
+    <div id="panel">
         <div id="WindSelector">
             Windrichtung:
             <select id="winddir">
@@ -146,7 +149,7 @@
                 <option>NW</option>
             </select>
         </div>
-    </DIV>
-</BODY>
+    </div>
+</body>
 
-</HTML>
+</hmtl>

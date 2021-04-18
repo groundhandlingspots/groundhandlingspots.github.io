@@ -1,37 +1,70 @@
-
 body {
-	width: 95%;
+    width: 95%;
 }
 
 #panel {
-	border-style: solid; border-color: rgb(255, 204, 102); border-radius: 25px; width: 550px; background-color: rgb(255, 204, 102);
-	  margin-left: auto ;
-	  margin-right: auto ;
+    border-style: solid;
+    border-color: rgb(255, 204, 102);
+    border-radius: 25px;
+    width: 550px;
+    background-color: rgb(255, 204, 102);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table {
-	border-collapse: collapse;
-	  margin-left: auto ;
-	  margin-right: auto ;
-	
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 td {
-	border-width: thin; padding: 12px; font-family: Arial, Helvetica, sans-serif; vertical-align: top; border-top-style: solid;
+    border-width: thin;
+    padding: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    vertical-align: top;
+    border-top-style: solid;
 }
+
 .hotspot {
-	text-align: center; padding-top: 10px; font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
 }
+
 .wind {
-	text-align: center; padding-top: 15px; font-style: italic;
+    text-align: center;
+    padding-top: 15px;
+    font-style: italic;
 }
+
 .windarc {
-	margin-top: 30px; margin-right: auto; margin-left: auto; display: block;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
 }
+
 #beammeup {
-	margin: 20px; padding: 10px; border-radius: 10px; width: 50px; background-color: rgb(153, 204, 255);
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 50px;
+    background-color: rgb(153, 204, 255);
 }
 
 #WindSelector {
-	padding: 12px; font-family: Arial, Helvetica, sans-serif; vertical-align: top;
+    padding: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    vertical-align: top;
+}
+
+.meteo-widget {
+    height:315px;
+    overflow:hidden
+}
+
+.meteo-widget > iframe {
+    position: relative;
+    top: -42px;
 }
