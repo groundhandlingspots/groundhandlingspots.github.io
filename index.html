@@ -7,11 +7,6 @@
 
 <body>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(".meteo-widget").on('load', function () {
-                $(this).contents().find("header").css("display", "none");
-            });
-        });
         var HSpots;
 
         d3.csv("data.csv", function (error, data) {
