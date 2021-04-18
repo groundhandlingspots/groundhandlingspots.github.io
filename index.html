@@ -106,26 +106,33 @@
                 .append('tr');
 
             var current_td = tr.append('td')
-                .attr("width", '190')
+                .attr("class", "hotspot-col")
                 .html(function (m) {
                     var ret
                     ret = "<div class='hotspot'> <a href='https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + "' target='_blank'>" + m.Hotspot + "</a></div>"
-                    ret = ret + "<div class='wind'>" + m.Wind + "</div>";
-                    return ret;
+                    ret += "<div class='wind'>" + m.Wind + "</div>";
+                        return ret;
                 });
 
             CreateArc(current_td);
 
-            tr.append('td').html(function (d) {
-                var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&spot=1&pressure=0&layout=light' allowTransparency='true' width='148' height='380' frameborder='0' scrolling='NO'></iframe></div>"
-                return mburl;
+            current_td.append('div')
+            .attr("class", "links")
+            .html(function(m) {
+                var ret
+                ret = "<div class='links'>";
+                ret += "<a href='https://www.google.de/maps/dir//" + m.lat + "," + m.long + "' target='_blank'>Anfahrt</a>";
+                ret += "<a href='https://windy.com/" + m.lat + "/" + m.long + "?" + m.lat + "," + m.long + ",16' target='_blank'>Windy</a>";
+                ret += "</div>";
+                return ret;
             });
 
             tr.append('td')
-                .append('div').attr("id", "beammeup")
-                .html(function (d) {
-                    return "<a href=http://maps.apple.com/?daddr=" + d.lat +","+ d.long + " target='_blank'>Beam me up</a>"
-                });
+            .attr("class", "weather-col")
+            .html(function (d) {
+                var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&spot=1&pressure=0&layout=light' allowTransparency='true' width='148' height='380' frameborder='0' scrolling='NO'></iframe></div>"
+                return mburl;
+            });
         }
     </script>
 
