@@ -1,1 +1,152 @@
-Hello World
+<!DOCTYPE HTML>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+<TITLE>Groundhandling Hotspots um Hamburg</TITLE>
+<LINK href="layout.css" rel="stylesheet" type="text/css">
+
+<BODY>
+    <SCRIPT type="text/javascript">
+
+        var HSpots;
+
+        d3.csv("data.csv", function (error, data) {
+            HSpots = data;
+            CreateTable("Alle Richtungen");
+
+            // handle on click event
+            d3.select('#winddir')
+                .on('change', function () {
+                    var newData = d3.select(this).property('value');
+                    CreateTable(newData);
+                });
+        });
+
+        // Prüft, ob Windrichtung zum Standort passt
+        function winddirmatch(winddir, windlocation) {
+            var wlstart, wlend, wdir;
+            wlstart = ConvertDir2Deg(windlocation.split('-')[0]);
+            wlend = ConvertDir2Deg(windlocation.split('-')[1]);
+            if (wlstart > wlend) { wlend = wlend + 360 };
+            wdir = ConvertDir2Deg(winddir);
+            //console.log(winddir, windlocation)
+            return (wdir >= wlstart) && (wdir <= wlend);
+        };
+
+        // Konvertiert Windrichtung in Grad
+        function ConvertDir2Deg(Direction) {
+            var ctable = {};
+            ctable['N'] = 0; ctable['NNO'] = 22.5; ctable['NO'] = 45; ctable['ONO'] = 67.5;
+            ctable['O'] = 90; ctable['OSO'] = 90 + 22.5; ctable['SO'] = 90 + 45; ctable['SSO'] = 90 + 67.5;
+            ctable['S'] = 180; ctable['SSW'] = 180 + 22.5; ctable['SW'] = 180 + 45; ctable['WSW'] = 180 + 67.5;
+            ctable['W'] = 270; ctable['WNW'] = 270 + 22.5; ctable['NW'] = 270 + 45; ctable['NNW'] = 270 + 67.5;
+            return ctable[Direction];
+        }
+
+        function CreateArc(current_td) {
+            var pi = Math.PI,
+                width = 50,
+                height = 50,
+                r_inner = width / 3.4,
+                r_outer = width / 2;
+
+            var vis = current_td.append('svg')
+                .attr("width", width)
+                .attr("height", height) // Added height and width so arc is visible
+                .attr("class", "windarc")
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+            var sdeg, edeg;
+            var arc = d3.svg.arc()
+                .innerRadius(r_inner)
+                .outerRadius(r_outer)
+                .startAngle(function (d) {
+                    sdeg = ConvertDir2Deg(d.Wind.split('-')[0])
+                    return (sdeg * (pi / 180));
+                })
+                .endAngle(function (d) {
+                    edeg = ConvertDir2Deg(d.Wind.split('-')[1])
+                    if (sdeg > edeg) {
+                        edeg = edeg + 360;
+                    }
+                    return (edeg * (pi / 180));
+                })
+
+            var arc_b = d3.svg.arc()
+                .innerRadius(r_inner)
+                .outerRadius(r_outer)
+                .startAngle(0)
+                .endAngle(2 * pi);
+
+            // Add the background arc, from 0 to 100% (τ).
+            var background = vis.append("path")
+                .style("fill", "#eee")
+                .attr("d", arc_b);
+
+            // Add the foreground arc in orange, currently showing 12.7%.
+            var foreground = vis.append("path")
+                .style("fill", "#0d0")
+                .attr("d", arc);
+        }
+
+        function CreateTable(windselect) {
+
+            d3.select('#panel table').remove()
+
+            var table = d3.select('#panel').append('table')
+
+
+            var tr = table.selectAll('tr')
+                .data(HSpots.filter(function (d) {
+                    var rc;
+                    if (windselect == "Alle Richtungen") { rc = true } else { rc = winddirmatch(windselect, d.Wind) }
+                    return rc;
+                }))
+                .enter()
+                .append('tr');
+
+            var current_td = tr.append('td')
+                .attr("width", '190')
+                .html(function (m) {
+                    var ret
+                    ret = "<div class='hotspot'> <a href=https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + ">" + m.Hotspot + "</a></div>"
+                    ret = ret + "<div class='wind'>" + m.Wind + "</div>";
+                    return ret;
+                });
+
+            CreateArc(current_td);
+
+            tr.append('td').html(function (d) {
+                var mburl = "<iframe src='" + d.Meteoblue + "?days=2&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&pictoicon=1&windspeed=1&windgust=1&winddirection=1&layout=light' allowTransparency='true' height='235' width='148' frameborder='0' scrolling='NO'></iframe>"
+                return mburl;
+            });
+
+            tr.append('td')
+                .append('div').attr("id", "beammeup")
+                .html(function (d) {
+                    return "<a href=http://maps.apple.com/?daddr=" + d.Geolocation + " target='_blank'>Beam me up</a>"
+                });
+        }
+
+
+    </SCRIPT>
+
+    <DIV id="panel">
+        <div id="WindSelector">
+            Windrichtung:
+            <select id="winddir">
+                <option>Alle Richtungen</option>
+                <option>N</option>
+                <option>NO</option>
+                <option>O</option>
+                <option>SO</option>
+                <option>S</option>
+                <option>SW</option>
+                <option>W</option>
+                <option>NW</option>
+            </select>
+        </div>
+    </DIV>
+</BODY>
+
+</HTML>
