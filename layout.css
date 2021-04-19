@@ -4,18 +4,17 @@ body {
 }
 
 #panel {
-    border-style: solid;
-    border-color: rgb(255, 204, 102);
-    border-radius: 25px;
-    background-color: rgb(255, 204, 102);
     margin-left: auto;
     margin-right: auto;
+    width: 95%;
+    max-width: 960px;
+    box-shadow: 10px 10px 15px silver, -10px 10px 15px silver;
+    background-color: #d8d6d6;
 }
 
 table {
     border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
 }
 
 td {
@@ -26,15 +25,32 @@ td {
 }
 
 .hotspot {
-    text-align: center;
-    padding-top: 10px;
-    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+ul.links {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
+ul.links a {
+    text-decoration: none;
+    color: rgb(148, 19, 19);
+    float: left;
+    width: 50%;
+    margin-bottom: 5px;
+}
+
+ul.links a::before {
+    content: "> ";
 }
 
 .wind {
-    text-align: center;
+    text-align: left;
     padding-top: 15px;
     font-style: italic;
+    float: left;
 }
 
 .windarc {
@@ -44,18 +60,11 @@ td {
     display: block;
 }
 
-#beammeup {
-    margin: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    width: 50px;
-    background-color: rgb(153, 204, 255);
-}
-
 #WindSelector {
     padding: 12px;
     vertical-align: top;
     text-align: center;
+    font-size: 2em;
 }
 
 #WindSelector select {
@@ -63,11 +72,19 @@ td {
 }
 
 .meteo-widget {
-    height: 315px;
-    overflow: hidden
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 79%;
 }
 
 .meteo-widget>iframe {
-    position: relative;
-    top: -42px;
+    position: absolute;
+    top: -45px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 }
