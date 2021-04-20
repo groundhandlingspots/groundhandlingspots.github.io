@@ -105,27 +105,27 @@
                 .enter()
                 .append('tr');
 
-            // var current_td = tr.append('td')
-            //     .attr("class", "hotspot-col")
-            //     .html(function (m) {
-            //         var ret
-            //         ret = "<h2 class='hotspot'>" + m.Hotspot + "</h2>"
-            //         ret += "<div class='wind'>" + m.Wind + "</div>";
-            //             return ret;
-            //     });
+            var current_td = tr.append('td')
+                .attr("class", "hotspot-col")
+                .html(function (m) {
+                    var ret
+                    ret = "<h2 class='hotspot'>" + m.Hotspot + "</h2>"
+                    ret += "<div class='wind'>" + m.Wind + "</div>";
+                        return ret;
+                });
 
-            // CreateArc(current_td);
+            CreateArc(current_td);
 
-            // current_td.append('ul')
-            // .attr("class", "links")
-            // .html(function(m) {
-            //     var ret
-            //     ret = "<li><a href='https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + "' target='_blank'>Karte</a></li>";
-            //     ret += "<li><a href='https://www.google.de/maps/dir//" + m.lat + "," + m.long + "' target='_blank'>Anfahrt</a></li>";
-            //     ret += "<li><a href='https://windy.com/" + m.lat + "/" + m.long + "?" + m.lat + "," + m.long + ",16' target='_blank'>Windy</a></li>";
-            //     ret += "<li><a href='https://www.meteoblue.com/de/wetter/woche/" + m.lat + "N" + m.long + "E0_Europe%2FBerlin' target='_blank'>Meteoblue</a></li>";
-            //     return ret;
-            // });
+            current_td.append('ul')
+            .attr("class", "links")
+            .html(function(m) {
+                var ret
+                ret = "<li><a href='https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + "' target='_blank'>Karte</a></li>";
+                ret += "<li><a href='https://www.google.de/maps/dir//" + m.lat + "," + m.long + "' target='_blank'>Anfahrt</a></li>";
+                ret += "<li><a href='https://windy.com/" + m.lat + "/" + m.long + "?" + m.lat + "," + m.long + ",16' target='_blank'>Windy</a></li>";
+                ret += "<li><a href='https://www.meteoblue.com/de/wetter/woche/" + m.lat + "N" + m.long + "E0_Europe%2FBerlin' target='_blank'>Meteoblue</a></li>";
+                return ret;
+            });
 
             tr.append('td')
             .attr("class", "weather-col")
