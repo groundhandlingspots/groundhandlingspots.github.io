@@ -44,8 +44,8 @@
 
         function CreateArc(current_td) {
             var pi = Math.PI,
-                width = 30,
-                height = 30,
+                width = 35,
+                height = 35,
                 r_inner = width / 3.4,
                 r_outer = width / 2;
 
@@ -108,7 +108,7 @@
             var current_td = hotspot_div.append('header').attr("class", "clearfix")
                 .html(function (m) {
                     var ret
-                    ret = "<h2>" + m.Hotspot + "</h2>"
+                    ret = "<div class='headline'>" + m.Hotspot + "</div>"
                     ret += "<div class='wind'>" + m.Wind + "</div>";
                         return ret;
                 });
