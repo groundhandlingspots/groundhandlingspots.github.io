@@ -50,7 +50,7 @@ ul.links a {
     cursor: pointer;
     color: #ffffff;
     font-size: 1.5em;
-    padding: 10px 24px;
+    padding: 0.6em 2em;
     text-decoration: none;
     text-shadow: 0px 1px 0px #4d3534;
     width: 50%;
@@ -99,7 +99,7 @@ ul.links a:active {
 
 .meteo-widget>iframe {
     position: absolute;
-    top: 143px;
+    top: 135px;
     left: 0;
     bottom: 0;
     right: 0;
