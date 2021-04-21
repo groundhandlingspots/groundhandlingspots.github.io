@@ -91,33 +91,42 @@
 
         function CreateTable(windselect) {
 
-            d3.select('#panel table').remove()
+            d3.select('#hotspots').remove()
 
-            var table = d3.select('#panel').append('table')
+            var panel = d3.select('#panel').append("div").attr("class", "hotspots");
 
 
-            var tr = table.selectAll('tr')
+            var hotspot_div = panel.selectAll('div.hotspot')
                 .data(HSpots.filter(function (d) {
                     var rc;
                     if (windselect == "Alle Richtungen") { rc = true } else { rc = winddirmatch(windselect, d.Wind) }
                     return rc;
                 }))
                 .enter()
-                .append('tr');
+                .append("div").attr("class", "hotspot");
 
-            var current_td = tr.append('td')
-                .attr("class", "hotspot-col")
+            var current_td = hotspot_div.append('header').attr("class", "clearfix")
                 .html(function (m) {
                     var ret
-                    ret = "<h2 class='hotspot'>" + m.Hotspot + "</h2>"
+                    ret = "<h2>" + m.Hotspot + "</h2>"
                     ret += "<div class='wind'>" + m.Wind + "</div>";
                         return ret;
                 });
 
             CreateArc(current_td);
 
-            current_td.append('ul')
-            .attr("class", "links")
+            
+            hotspot_div.append('div')
+            .attr("class", "meteo-widget")
+            .attr("width", "100%")
+            .html(function (d) {
+                // var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&pressure=0&layout=light' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe></div>"
+                var mburl = "<iframe src='https://www.meteoblue.com/de/wetter/widget/three/" + d.lat + "N" + d.long + "_Europe%2FBerlin?geoloc=fixed&nocurrent=0&nocurrent=1&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe>"
+                return mburl;
+            });
+
+            hotspot_div.append('ul')
+            .attr("class", "links clearfix")
             .html(function(m) {
                 var ret
                 ret = "<li><a href='https://www.google.com/maps/d/viewer?mid=" + m.HotspotURL + "' target='_blank'>Karte</a></li>";
@@ -125,15 +134,6 @@
                 ret += "<li><a href='https://windy.com/" + m.lat + "/" + m.long + "?" + m.lat + "," + m.long + ",16' target='_blank'>Windy</a></li>";
                 ret += "<li><a href='https://www.meteoblue.com/de/wetter/woche/" + m.lat + "N" + m.long + "E0_Europe%2FBerlin' target='_blank'>Meteoblue</a></li>";
                 return ret;
-            });
-
-            tr.append('td')
-            .attr("class", "weather-col")
-            .attr("width", "100%")
-            .html(function (d) {
-                // var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&pressure=0&layout=light' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe></div>"
-                var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/three/" + d.lat + "N" + d.long + "_Europe%2FBerlin?geoloc=fixed&nocurrent=0&nocurrent=1&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe></div>"
-                return mburl;
             });
         }
     </script>
@@ -153,6 +153,7 @@
                 <option>NW</option>
             </select>
         </div>
+        <div id="hotspots"></div>
     </div>
 </body>
 
