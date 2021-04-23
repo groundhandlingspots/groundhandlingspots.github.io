@@ -17,7 +17,7 @@ body {
 }
 
 .hotspot header {
-    margin: 20px;
+    padding: 20px 0.3em;
     font-size: 1.5em;
     font-weight: bold;
     color: #333;
@@ -76,7 +76,7 @@ ul.links a:active {
 
 .windarc {
     display: block;
-    float:right;
+    float: right;
     margin-top: 2px;
 }
 
