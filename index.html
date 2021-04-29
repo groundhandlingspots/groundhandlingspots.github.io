@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <meta name="robots" content="noindex">
+<meta charset="utf-8" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
 <title>Groundhandling Hotspots um Hamburg</title>
 <link href="layout.css" rel="stylesheet" type="text/css">
@@ -12,14 +13,13 @@
         d3.csv("data.csv", function (error, data) {
             HSpots = data;
             CreateTable("Alle Richtungen");
-
-            // handle on click event
-            d3.select('#winddir')
-                .on('change', function () {
-                    var newData = d3.select(this).property('value');
-                    CreateTable(newData);
-                });
         });
+
+        function filterwinddir(dirbutton) {
+            var newData = d3.select(dirbutton).property('value');
+            CreateTable(newData);
+            d3.select('#filter-input').property('checked', false);
+        }
 
         // Prüft, ob Windrichtung zum Standort passt
         function winddirmatch(winddir, windlocation) {
@@ -118,10 +118,9 @@
             
             hotspot_div.append('div')
             .attr("class", "meteo-widget")
-            .attr("width", "100%")
             .html(function (d) {
                 // var mburl = "<div class='meteo-widget'><iframe src='https://www.meteoblue.com/de/wetter/widget/daily/" + d.lat + "N" + d.long + "E_Europe%2FBerlin?geoloc=fixed&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=coloured&pictoicon=0&pictoicon=1&maxtemperature=0&maxtemperature=1&mintemperature=0&mintemperature=1&windspeed=0&windspeed=1&windgust=0&windgust=1&winddirection=0&winddirection=1&uv=0&humidity=0&precipitation=0&precipitation=1&precipitationprobability=0&precipitationprobability=1&spot=0&pressure=0&layout=light' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe></div>"
-                var mburl = "<iframe src='https://www.meteoblue.com/de/wetter/widget/three/" + d.lat + "N" + d.long + "_Europe%2FBerlin?geoloc=fixed&nocurrent=0&nocurrent=1&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright' allowTransparency='true' width='148' height='340' frameborder='0' scrolling='NO'></iframe>"
+                var mburl = "<iframe src='https://www.meteoblue.com/de/wetter/widget/three/" + d.lat + "N" + d.long + "_Europe%2FBerlin?geoloc=fixed&nocurrent=0&nocurrent=1&noforecast=0&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=bright' allowTransparency='true' frameborder='0' scrolling='NO'></iframe>"
                 return mburl;
             });
 
@@ -139,21 +138,37 @@
     </script>
 
     <div id="panel">
-        <div id="WindSelector">
-            Windrichtung:
-            <select id="winddir">
-                <option>Alle Richtungen</option>
-                <option>N</option>
-                <option>NO</option>
-                <option>O</option>
-                <option>SO</option>
-                <option>S</option>
-                <option>SW</option>
-                <option>W</option>
-                <option>NW</option>
-            </select>
+        <div id="filter">
+            <div id="filter-toggle">
+                <input id="filter-input" type="checkbox" />
+                <div id="filter-input-div"></div>
+                <div id="WindSelector">
+                    Windrichtung:
+                    <fieldset>
+                        <input type="radio" id="all" name="Windrichtung" value="Alle Richtungen" onclick="filterwinddir(this);" />
+                        <label for="all">Alle Richtungen</label>
+                        <input type="radio" id="N" name="Windrichtung" value="N"  onclick="filterwinddir(this);" />
+                        <label for="N">N</label>
+                        <input type="radio" id="NO" name="Windrichtung" value="NO"  onclick="filterwinddir(this);" />
+                        <label for="NO">NO</label>
+                        <input type="radio" id="O" name="Windrichtung" value="O"  onclick="filterwinddir(this);" />
+                        <label for="O">O</label>
+                        <input type="radio" id="SO" name="Windrichtung" value="SO"  onclick="filterwinddir(this);" />
+                        <label for="SO">SO</label>
+                        <input type="radio" id="S" name="Windrichtung" value="S"  onclick="filterwinddir(this);" />
+                        <label for="S">S</label>
+                        <input type="radio" id="SW" name="Windrichtung" value="SW"  onclick="filterwinddir(this);" />
+                        <label for="SW">SW</label>
+                        <input type="radio" id="W" name="Windrichtung" value="W"  onclick="filterwinddir(this);" />
+                        <label for="W">W</label>
+                        <input type="radio" id="NW" name="Windrichtung" value="NW"  onclick="filterwinddir(this);" />
+                        <label for="NW">NW</label>
+                    </fieldset>
+                </div>
+            </div>
         </div>
-        <div id="hotspots"></div>
+        
+        <div class="hotspots"></div>
     </div>
 </body>
 
